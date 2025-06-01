@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beni Affettin mi?</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: #f7f7f7;
+        }
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+        }
+        .buttons {
+            display: flex;
+            gap: 2rem;
+        }
+        #evetBtn, #hayirBtn {
+            font-size: 2rem;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: font-size 0.3s, background 0.3s;
+        }
+        #evetBtn {
+            background: #4caf50;
+            color: white;
+        }
+        #hayirBtn {
+            background: #f44336;
+            color: white;
+        }
+        #tamEvet {
+            display: none;
+            font-size: 8vw;
+            color: #4caf50;
+            text-align: center;
+            width: 100vw;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
+        #sevgiMesaji {
+            display: none;
+            font-size: 4vw;
+            color: #2196f3;
+            text-align: center;
+            width: 100vw;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Yarın izin alabilir miyim?</h1>
+    <div class="buttons" id="butonlar">
+        <button id="evetBtn">Evet</button>
+        <button id="hayirBtn">Hayır</button>
+    </div>
+    <div id="tamEvet">EVET</div>
+    <div id="sevgiMesaji">Biliyordum izin vereceğinizi :)</div>
+    <script>
+        const evetBtn = document.getElementById('evetBtn');
+        const hayirBtn = document.getElementById('hayirBtn');
+        const butonlar = document.getElementById('butonlar');
+        const tamEvet = document.getElementById('tamEvet');
+        const sevgiMesaji = document.getElementById('sevgiMesaji');
+        let evetFontSize = 2; // rem
+        let hayirTik = 0;
+
+        hayirBtn.addEventListener('click', () => {
+            hayirTik++;
+            evetFontSize *= 2;
+            evetBtn.style.fontSize = evetFontSize + 'rem';
+            if (evetFontSize >= 64) {
+                // Sadece EVET kalsın, ekranı kaplasın
+                butonlar.style.display = 'none';
+                document.querySelector('h1').style.display = 'none';
+                tamEvet.innerHTML = '<button id="tamEvetBtn" style="font-size:12vw;padding:2rem 6rem;border-radius:2rem;background:#4caf50;color:white;border:none;cursor:pointer;">EVET</button>';
+                tamEvet.style.display = 'flex';
+                tamEvet.style.justifyContent = 'center';
+                tamEvet.style.alignItems = 'center';
+                tamEvet.style.height = '100vh';
+                tamEvet.style.width = '100vw';
+                // Tam ekran evet butonuna tıklama
+                setTimeout(() => {
+                    const tamEvetBtn = document.getElementById('tamEvetBtn');
+                    if (tamEvetBtn) {
+                        tamEvetBtn.onclick = () => {
+                            tamEvet.style.display = 'none';
+                            sevgiMesaji.style.display = 'flex';
+                            sevgiMesaji.style.justifyContent = 'center';
+                            sevgiMesaji.style.alignItems = 'center';
+                            sevgiMesaji.style.height = '100vh';
+                            sevgiMesaji.style.width = '100vw';
+                        };
+                    }
+                }, 100);
+            }
+        });
+
+        evetBtn.addEventListener('click', () => {
+            if (evetFontSize < 64) {
+                // Sadece hayır butonuna basıldıysa büyütülmüşse, evet butonuna basılabilsin
+                butonlar.style.display = 'none';
+                document.querySelector('h1').style.display = 'none';
+                sevgiMesaji.style.display = 'flex';
+                sevgiMesaji.style.justifyContent = 'center';
+                sevgiMesaji.style.alignItems = 'center';
+                sevgiMesaji.style.height = '100vh';
+                sevgiMesaji.style.width = '100vw';
+            } else {
+                // Tam ekran EVET görünüyorsa
+                // Artık buton olarak gösteriliyor, burada bir şey yapmaya gerek yok
+            }
+        });
+
+        // Hayır butonuna basıldıkça sadece evet butonuna basılabilsin
+        hayirBtn.addEventListener('click', () => {
+            if (evetFontSize >= 4) {
+                hayirBtn.disabled = true;
+                setTimeout(() => {
+                    hayirBtn.disabled = false;
+                }, 500);
+            }
+        });
+    </script>
+</body>
+</html>
